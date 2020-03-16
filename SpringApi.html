@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<head>
+    
+
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<style>
+    tr {
+      text-align: center;
+      font-size: large;
+      font-style: normal;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+    
+    th {
+      color: rgb(21, 124, 221);
+    }
+
+    button {
+        background-color: rgb(30, 88, 110); 
+        border: none;
+        color: white;
+        padding: 5px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 15px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        
+
+    }
+    input {
+        padding: 5px 20px;
+        text-align: center;
+        font-size: 15px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        
+
+    }
+    table,th,td {
+    border-collapse: collapse;
+    
+    border: 3px solid grey;
+    padding: 20px;
+}
+
+    </style>
+
+    
+
+
+
+<body>
+    
+    
+
+    <div id="app">
+        <table >
+          <tr>
+              <th>
+                  #
+              </th>
+              <th>
+                  Light Brightness
+              </th>
+              <th>
+                  Light status
+              </th>
+              <th>
+                Switch Status 
+            </th>
+            <th>
+                Modify level 
+            </th>
+              
+          </tr>
+
+        <tr
+          v-for = "light in info">
+          <td><strong>{{light.id}}</strong></td>
+          <td>{{light.level}}</td>
+          <td>
+            <img v-if="light.status =='OFF'"
+            src = "light-off.png">
+            <img v-if="light.status =='ON'"
+            src = "light-on.png">
+          </td>
+          <td><img v-on:click="switchLight(light)"
+            src = "switch.png"></td>
+            <td> <input v-model="value" placeholder=0 > 
+                <button v-on:click="switchLevel(value,light)">modify Brightness</button></td>
+          
+          
+          
+          
+            
+        </tr> 
+      </table>
+    </div>
+    
+    
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    info: null,
+                    
+                    
+                }
+            },
+            mounted() {
+                axios
+                    .get(" https://hananeapp.cleverapps.io/api/lights/")
+                    .then(response => (this.info = response.data)) 
+                    
+            },
+            methods:{
+                switchLight: function (light) {
+                    axios.put('https://hananeapp.cleverapps.io/api/lights/' + light.id +
+                            '/switch')
+                        .then(response => (this.info = response.data))
+                },
+                switchLevel: function (value,light) {
+                    axios.put('https://hananeapp.cleverapps.io/api/lights/' + light.id +
+                            '/'+ value)
+                        .then(response => (this.info = response.data))
+                },
+               
+                
+            }
+        })
+        
+    </script>
+
+</body>
