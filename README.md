@@ -4,3 +4,4 @@ This is how it looks like :
  
 ![alt text](https://github.com/HananeOB/VueJS/blob/master/Interface.PNG "VueJs examle")
 
+Remarque : Il est préferable de mettre les lignes du style et du script sur d'autre fichiers (javascript et css), mais vue que mon code est très simple et court j'ai mis le tout sur un même fichier SpringApi.html   
